@@ -35,9 +35,11 @@ export default function ObjectNodeProperties({panelId, node, treeNodeInfo, nodeD
   const api = getApiInstance();
   // To check node data is updated or not
   const staleCounter = useRef(0);
-  const url = (isNew)=>{
-    return urlBase + (isNew ? '' : nodeData._id);
+
+  const url = (isNew, dbName) => {
+    return urlBase + (isNew ? '' : nodeData._id) + (dbName ? `?db_name=${dbName}` : '');
   };
+
   const isDirty = useRef(false); // useful for warnings
   let warnOnCloseFlag = true;
   const confirmOnCloseReset = usePreferences().getPreferencesForModule('browser').confirm_on_properties_close;
@@ -82,7 +84,7 @@ export default function ObjectNodeProperties({panelId, node, treeNodeInfo, nodeD
       if(!isActive && actionType == 'properties') {
         return;
       }
-      api.get(url(false))
+      api.get(url(false, schema._state?.data?.roledatabaseacl))
         .then((res)=>{
           let data = res.data;
           if (isActionTypeCopy) {

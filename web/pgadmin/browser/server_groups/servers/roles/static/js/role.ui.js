@@ -13,7 +13,7 @@ import SecLabelSchema from '../../../static/js/sec_label.ui';
 
 
 export default class RoleSchema extends BaseUISchema {
-  constructor(getVariableSchema, getMembershipSchema,fieldOptions={}) {
+  constructor(getVariableSchema, getMembershipSchema, getRolePrivilegesSchema, fieldOptions = {}) {
     super({
       oid: null,
       rolname: null,
@@ -30,10 +30,15 @@ export default class RoleSchema extends BaseUISchema {
       rolvaliduntil: null,
       seclabels: [],
       variables: [],
-      rolbypassrls: false,
+      objacls: [],
+      roledatabaseacl: null,
+      rolbypassrls: false
     });
     this.variableSchema = getVariableSchema();
     this.membershipSchema = getMembershipSchema();
+    this.rolePrivilegesSchema = getRolePrivilegesSchema();
+    this.onChangeDatabase = new BroadcastChannel('custom-privileges');
+
     this.fieldOptions = {
       role: [],
       ...fieldOptions,
@@ -41,6 +46,7 @@ export default class RoleSchema extends BaseUISchema {
 
     this.isReadOnly = null;
     this.nodeInfo = this.fieldOptions.nodeInfo;
+    this.databaseOptions = fieldOptions.databases;
     this.user = this.nodeInfo.server.user;
   }
 
@@ -117,13 +123,13 @@ export default class RoleSchema extends BaseUISchema {
       {
         id: 'rolcanlogin', label: gettext('Can login?'),
         type: 'switch',
-        group: gettext('Privileges'),
+        group: gettext('General privileges'),
         disabled: obj.readOnly,
       },
       {
         id: 'rolsuper', label: gettext('Superuser?'),
         type: 'switch',
-        group: gettext('Privileges'),
+        group: gettext('General privileges'),
         depChange: (state) => {
           state.rolcreaterole = state.rolcreatedb = state.rolbypassrls = state.rolsuper;
         },
@@ -131,34 +137,61 @@ export default class RoleSchema extends BaseUISchema {
       },
       {
         id: 'rolcreaterole', label: gettext('Create roles?'),
-        group: gettext('Privileges'),
+        group: gettext('General privileges'),
         type: 'switch',
         disabled: obj.readOnly,
       },
       {
         id: 'rolcreatedb', label: gettext('Create databases?'),
-        group: gettext('Privileges'),
+        group: gettext('General privileges'),
         type: 'switch',
         disabled: obj.readOnly,
       },
       {
-        id: 'rolinherit', group: gettext('Privileges'),
+        id: 'rolinherit', group: gettext('General privileges'),
         label: gettext('Inherit rights from the parent roles?'),
         type: 'switch',
         disabled: obj.readOnly,
       },
       {
-        id: 'rolreplication', group: gettext('Privileges'),
+        id: 'rolreplication', group: gettext('General privileges'),
         label: gettext('Can initiate streaming replication and backups?'),
         type: 'switch',
         min_version: 90100,
         disabled: obj.readOnly,
       },
       {
-        id: 'rolbypassrls', group: gettext('Privileges'),
+        id: 'rolbypassrls', group: gettext('General privileges'),
         label: gettext('Bypass RLS?'),
         type: 'switch',
         disabled: obj.readOnly,
+      },
+      {
+        id: 'roledatabaseacl',
+        label: gettext('Database'),
+        mode: ['properties'],
+        type: () => ({
+          type: 'select',
+          options: obj.databaseOptions,
+          controlProps: {
+            allowClear: false,
+          }
+        }),
+        group: gettext('Object privileges'),
+        readOnly: false,
+        depChange: () => {
+          // setTimeout(() => {
+          this.onChangeDatabase.postMessage('reload');
+          // }, 0);
+        },
+      },
+      {
+        id: 'objacls', type: 'collection',
+        schema: obj.rolePrivilegesSchema,
+        editable: false, group: gettext('Object privileges'),
+        mode: ['properties'],
+        canAdd: false, canEdit: false, canDelete: false,
+        uniqueCol: ['type', 'schema', 'objname'],
       },
       {
         id: 'rolmembership', label: gettext('Member of'), group: gettext('Membership'),

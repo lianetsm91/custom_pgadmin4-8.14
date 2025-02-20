@@ -1130,7 +1130,8 @@ export function PlainString({ controlProps, value }) {
     finalValue = controlProps.formatter.fromRaw(finalValue);
   }
   return  <Root>
-    <div className="Form-plainstring">{finalValue}</div>
+    <div className="Form-plainstring"
+         style={controlProps?.customStyle}>{finalValue}</div>
   </Root>;
 }
 PlainString.propTypes = {

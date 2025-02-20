@@ -821,6 +821,7 @@ rolmembership:{
 
     @check_precondition(action='properties')
     def properties(self, gid, sid, rid):
+        db_name = request.args.get('db_name', None)
 
         status, res = self.conn.execute_dict(
             render_template(
@@ -830,6 +831,8 @@ rolmembership:{
         )
 
         variables = self.variables(None, None, rid)
+        custom_privileges = self.get_custom_privileges(sid, rid, db_name)
+
         if not status:
             return internal_server_error(
                 _(ERROR_FETCHING_ROLE_INFORMATION + "\n{0}").format(res))
@@ -841,7 +844,9 @@ rolmembership:{
         res['rows'][0]['is_sys_obj'] = (
             res['rows'][0]['oid'] <= self._DATABASE_LAST_SYSTEM_OID or
             self.datistemplate)
-        res = {**res['rows'][0], 'variables': variables['rows']}
+        res = {**res['rows'][0], 'variables': variables['rows'],
+               'objacls': custom_privileges['rows'],
+               'roledatabaseacl': db_name, }
         return ajax_response(
             response=res,
             status=200
@@ -1222,6 +1227,64 @@ rolmembership:{
             RoleView._release_connection(is_connected, manager, db_row)
 
         return dependents
+
+    def get_custom_privileges(self, sid, rid, db_name):
+        """
+        This function is used to fetch the privileges for the selected role over a database objects.
+        Args:
+            sid: Server Id
+            rid: Role Id.
+            db_name: Database name
+        Returns: Dictionary of privileges for the selected role.
+        """
+        if not db_name:
+            return {'rows': []}
+
+        can_disconn = True
+        manager = get_driver(PG_DEFAULT_DRIVER).connection_manager(sid)
+        conn = manager.connection(database=db_name)
+        is_already_connected = conn.connected()
+        pg_db = self.manager.db_info[self.manager.did]
+
+        if db_name == pg_db['datname']:
+            can_disconn = False
+
+        # if database is not connected, try connecting it and get
+        # the connection object.
+        if not is_already_connected:
+            status, errmsg = conn.connect()
+            if not status:
+                current_app.logger.error(
+                    "Could not connect to database(#{0}).\nError: {1}"
+                    .format(
+                        db_name, errmsg
+                    )
+                )
+                return internal_server_error(errmsg)
+            else:
+                current_app.logger.info(
+                    'Connection established for database: \
+                    %s' % db_name
+                )
+
+        status, db_result = conn.execute_dict(
+            render_template(self.sql_path + 'custom_privileges.sql', rid=rid))
+
+        if is_already_connected is False and can_disconn:
+            current_app.logger.info(
+                'Connection released for database: \
+                %s' % db_name
+            )
+            manager.release(database=db_name)
+
+        if not status:
+            return internal_server_error(
+                _(
+                    "Error retrieving privileges information for the role.\n{0}"
+                ).format(db_result)
+            )
+
+        return db_result
 
     # @check_precondition()
     def variables(self, gid, sid, rid, as_json=False):

@@ -72,7 +72,7 @@ registerOptionEvaluator(
   // Evaluator
   ({viewHelperProps, ...args}) => (
     viewHelperProps.inCatalog ||
-    viewHelperProps.mode === 'properties' ||
+    (viewHelperProps.mode === 'properties' && args.field.id !== 'roledatabaseacl') ||
     booleanEvaluator({viewHelperProps, ...args })
   ),
   // Default value

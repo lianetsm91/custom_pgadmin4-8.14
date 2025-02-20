@@ -50,7 +50,7 @@ export default function SchemaPropertiesView({
 
   // Reload properties tab when properties are modified from the dialog
   useEffect(() => {
-    const saveProperties = new BroadcastChannel('save-properties');
+    const saveProperties = new BroadcastChannel('custom-privileges');
 
     saveProperties.onmessage = (event) => {
       if(event.data === 'reload') {

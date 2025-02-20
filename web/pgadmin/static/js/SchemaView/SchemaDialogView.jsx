@@ -39,7 +39,7 @@ import { StyledBox } from './StyledComponents';
 import { useSchemaState } from './hooks';
 import { getForQueryParams } from './common';
 
-const saveProperties = new BroadcastChannel('save-properties');
+const saveProperties = new BroadcastChannel('custom-privileges');
 
 /* If its the dialog */
 export default function SchemaDialogView({

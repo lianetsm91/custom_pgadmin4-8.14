@@ -10,6 +10,7 @@ import RoleSchema from './role.ui';
 import { getNodeVariableSchema } from '../../../static/js/variable.ui';
 import { getNodeListByName } from '../../../../../static/js/node_ajax';
 import { getMembershipSchema } from '../../../static/js/membership.ui';
+import { getRolePrivilegesSchema } from '../../../static/js/role_privilege.ui';
 import { showRoleReassign } from './roleReassign';
 
 define('pgadmin.node.role', [
@@ -129,9 +130,11 @@ define('pgadmin.node.role', [
         return new RoleSchema(
           ()=>getNodeVariableSchema(this, treeNodeInfo, itemNodeData, true, false),
           ()=>getMembershipSchema(this, treeNodeInfo, itemNodeData),
+          () => getRolePrivilegesSchema(),
           {
             role: ()=>getNodeListByName('role', treeNodeInfo, itemNodeData),
-            nodeInfo: treeNodeInfo
+            nodeInfo: treeNodeInfo,
+            databases: () => getNodeListByName('database', treeNodeInfo, itemNodeData, { cacheLevel: 'server' })
           },
         );
       },
