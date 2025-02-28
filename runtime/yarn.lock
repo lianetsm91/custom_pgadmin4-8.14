@@ -626,13 +626,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-store@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "electron-store@npm:10.0.0"
+"electron-store@npm:^10.0.1":
+  version: 10.0.1
+  resolution: "electron-store@npm:10.0.1"
   dependencies:
     conf: ^13.0.0
     type-fest: ^4.20.0
-  checksum: 1e624d0fc0f62bac7cacc210e09b0aa9706c9661d1c7a7b428731b9af728d58dcadaf1b690a769ff6c6e2e7e2224855233d88b658fcbb092d0345e2d5a469dfd
+  checksum: f80a02a226128f89bed0e6ba9ae28e75ba86acb7a922697ddc16b1014c9a6925dbb5f9024ee7fc500f74a4e389e158ee4889c84d91dcb861bd68f4934276af6c
   languageName: node
   linkType: hard
 
@@ -1499,7 +1499,7 @@ __metadata:
     axios: ^1.7.8
     electron: latest
     electron-context-menu: ^4.0.4
-    electron-store: ^10.0.0
+    electron-store: ^10.0.1
     eslint: ^9.16.0
   languageName: unknown
   linkType: soft
