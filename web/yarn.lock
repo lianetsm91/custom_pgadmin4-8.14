@@ -1601,6 +1601,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@date-io/core@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@date-io/core@npm:3.2.0"
+  checksum: 711e43b449bc29f5f1aaf49e34e722a9fe42238b1ee20e81e3a11692118002872d915c2a289f1ed24e53f88bd220ce3888d7ec0a1705c131e305478f534a3450
+  languageName: node
+  linkType: hard
+
 "@date-io/date-fns@npm:3.x":
   version: 3.0.0
   resolution: "@date-io/date-fns@npm:3.0.0"
@@ -13438,7 +13445,7 @@ __metadata:
     "@babel/preset-typescript": ^7.24.7
     "@codemirror/lang-json": ^6.0.1
     "@codemirror/lang-sql": ^6.8.0
-    "@date-io/core": ^3.0.0
+    "@date-io/core": ^3.2.0
     "@date-io/date-fns": 3.x
     "@emotion/memoize": ^0.9.0
     "@emotion/react": ^11.11.3
