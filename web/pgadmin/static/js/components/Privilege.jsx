@@ -20,7 +20,7 @@ const Root = styled('div')(()=>({
   },
 }));
 
-export default function Privilege({value, onChange, controlProps}) {
+export default function Privilege({value, onChange, controlProps, readonly = false}) {
   // All available privileges in the PostgreSQL database server for
   // generating the label for the specific Control
   const LABELS = {
@@ -125,11 +125,11 @@ export default function Privilege({value, onChange, controlProps}) {
           <tr>
             <td className='Privilege-tableCell'>
               <InputCheckbox name="all" controlProps={{label: 'ALL'}} id={checkboxId} size="small"
-                onChange={(e)=>onCheckAll(e, false)} value={all}/>
+                onChange={(e)=>onCheckAll(e, false)} value={all} readonly={readonly}/>
             </td>
             <td className='Privilege-tableCell'>
               <InputCheckbox name="all" controlProps={{label: 'WITH GRANT OPTION'}} id={checkboxId} size="small"
-                disabled={!all} onChange={(e)=>onCheckAll(e, true)} value={allWithGrant}/>
+                disabled={!all} onChange={(e)=>onCheckAll(e, true)} value={allWithGrant} readonly={readonly}/>
             </td>
           </tr>
         </thead>}
@@ -141,12 +141,12 @@ export default function Privilege({value, onChange, controlProps}) {
                   <td className='Privilege-tableCell'>
                     <InputCheckbox name={d.privilege_type} controlProps={{label: LABELS[d.privilege_type]}}
                       id={checkboxId} value={Boolean(d.privilege)} size="small"
-                      onChange={(e)=>onCheck(e, false)}/>
+                      onChange={(e)=>onCheck(e, false)} readonly={readonly}/>
                   </td>
                   <td className='Privilege-tableCell'>
                     <InputCheckbox name={d.privilege_type} controlProps={{label: 'WITH GRANT OPTION'}}
                       id={checkboxId} value={Boolean(d.with_grant)} size="small" disabled={!d.privilege}
-                      onChange={(e)=>onCheck(e, true)}/>
+                      onChange={(e)=>onCheck(e, true)} readonly={readonly}/>
                   </td>
                 </tr>
               );
@@ -162,4 +162,5 @@ Privilege.propTypes = {
   value: PropTypes.array,
   onChange: PropTypes.func,
   controlProps: PropTypes.object,
+  readonly: PropTypes.bool,
 };

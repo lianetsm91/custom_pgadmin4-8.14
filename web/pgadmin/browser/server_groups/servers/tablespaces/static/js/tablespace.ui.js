@@ -63,9 +63,6 @@ export default class TablespaceSchema extends BaseUISchema {
         mode: ['properties', 'edit','create'],
         readonly: function(state) {return !obj.isNew(state); },
       }, {
-        id: 'acl', label: gettext('Privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
-      }, {
         id: 'spcoptions', label: '', type: 'collection',
         schema: this.getVariableSchema(),
         editable: false,
@@ -75,7 +72,7 @@ export default class TablespaceSchema extends BaseUISchema {
         id: 'spcacl', label: gettext('Privileges'), type: 'collection',
         group: gettext('Security'),
         schema: this.getPrivilegeRoleSchema(['C']),
-        mode: ['edit', 'create'], uniqueCol : ['grantee'],
+        mode: ['properties', 'edit', 'create'], uniqueCol : ['grantee'],
         canAdd: true, canDelete: true,
       }, {
         id: 'seclabels', label: gettext('Security labels'), type: 'collection',

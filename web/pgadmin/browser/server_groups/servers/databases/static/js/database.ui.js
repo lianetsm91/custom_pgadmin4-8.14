@@ -252,30 +252,33 @@ export default class DatabaseSchema extends BaseUISchema {
         editable: false, type: 'switch', group: gettext('Definition'),
         mode: ['properties'],
       },{
-        id: 'acl', label: gettext('Privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
-      },{
-        id: 'tblacl', label: gettext('Default TABLE privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
-      },{
-        id: 'seqacl', label: gettext('Default SEQUENCE privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
-      },{
-        id: 'funcacl', label: gettext('Default FUNCTION privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
-      },{
-        id: 'typeacl', label: gettext('Default TYPE privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'], min_version: 90200,
-      },
-      {
         id: 'datacl', label: gettext('Privileges'), type: 'collection',
         schema: this.getPrivilegeRoleSchema(['C', 'T', 'c']),
         uniqueCol : ['grantee', 'grantor'],
         editable: false,
-        group: gettext('Security'), mode: ['edit', 'create'],
+        group: gettext('Security'), mode: ['properties', 'edit', 'create'],
         canAdd: true, canDelete: true,
-      },
-      {
+      },{
+        id: 'deftblacl', type: 'collection', group: gettext('Security'),
+        label: gettext('Default TABLE privileges'),
+        schema: this.getPrivilegeRoleSchema(['a', 'r', 'w', 'd', 'D', 'x', 't']),
+        mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
+      },{
+        id: 'defseqacl', type: 'collection', group: gettext('Security'),
+        label: gettext('Default SEQUENCE privileges'),
+        schema: this.getPrivilegeRoleSchema(['r', 'w', 'U']),
+        mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
+      },{
+        id: 'deffuncacl', type: 'collection', group: gettext('Security'),
+        label: gettext('Default FUNCTION privileges'),
+        schema: this.getPrivilegeRoleSchema(['X']),
+        mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
+      },{
+        id: 'deftypeacl', type: 'collection', group: gettext('Security'),
+        label: gettext('Default TYPE privileges'),
+        schema: this.getPrivilegeRoleSchema(['U']), min_version: 90200,
+        mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
+      },{
         id: 'variables', label: '', type: 'collection',
         schema: this.getVariableSchema(),
         editable: false,

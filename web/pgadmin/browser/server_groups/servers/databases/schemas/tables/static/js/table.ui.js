@@ -1017,13 +1017,9 @@ export default class TableSchema extends BaseUISchema {
       schema: this.vacuumSettingsSchema, visible: !this.inErd,
     },
     {
-      id: 'relacl_str', label: gettext('Privileges'), disabled: this.inCatalog,
-      type: 'text', mode: ['properties'], group: 'security_group',
-    },
-    {
       id: 'relacl', label: gettext('Privileges'), type: 'collection',
       group: 'security_group', schema: this.getPrivilegeRoleSchema(['a','r','w','d','D','x','t']),
-      mode: ['edit', 'create'], canAdd: true, canDelete: true,
+      mode: ['properties', 'edit', 'create'], canAdd: true, canDelete: true,
       uniqueCol : ['grantee'],
     },{
       id: 'seclabels', label: gettext('Security labels'), canEdit: false,

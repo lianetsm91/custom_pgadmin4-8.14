@@ -55,27 +55,27 @@ export default class PGSchema extends BaseUISchema {
         id: 'description', label: gettext('Comment'), cell: 'string',
         type: 'multiline',
       },{
-        id: 'acl', label: gettext('Privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
-      },{
-        id: 'tblacl', label: gettext('Default TABLE privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
-      },{
-        id: 'seqacl', label: gettext('Default SEQUENCE privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
-      },{
-        id: 'funcacl', label: gettext('Default FUNCTION privileges'),
-        group: gettext('Security'), type: 'text', mode: ['properties'],
-      },{
-        id: 'typeacl', label: gettext('Default TYPE privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'], min_version: 90200
-      },
-      {
         id: 'nspacl', label: gettext('Privileges'), type: 'collection',
         schema: pgSchemaObj.getPrivilegeRoleSchema(['C', 'U']),
         uniqueCol : ['grantee', 'grantor'], editable: false,
-        group: gettext('Security'), mode: ['edit', 'create'],
+        group: gettext('Security'), mode: ['properties', 'edit', 'create'],
         canAdd: true, canDelete: true,
+      },{
+        id: 'deftblacl', label: gettext('Default TABLE privileges'), type: 'collection',
+        group: gettext('Security'), mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
+        schema: this.getPrivilegeRoleSchema(['a', 'r', 'w', 'd', 'D', 'x', 't']),
+      },{
+        id: 'defseqacl', label: gettext('Default SEQUENCE privileges'), type: 'collection',
+        group: gettext('Security'), mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
+        schema: this.getPrivilegeRoleSchema(['r', 'w', 'U']),
+      },{
+        id: 'deffuncacl', label: gettext('Default FUNCTION privileges'), type: 'collection',
+        group: gettext('Security'), mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
+        schema: pgSchemaObj.getPrivilegeRoleSchema(['X']),
+      },{
+        id: 'deftypeacl', label: gettext('Default TYPE privileges'), type: 'collection',
+        group: gettext('Security'), mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
+        min_version: 90200, schema: this.getPrivilegeRoleSchema(['U']),
       },
       {
         id: 'seclabels', label: gettext('Security labels'),

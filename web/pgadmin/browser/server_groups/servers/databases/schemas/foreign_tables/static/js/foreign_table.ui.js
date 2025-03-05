@@ -217,15 +217,11 @@ export default class ForeignTableSchema extends BaseUISchema {
         canAdd: true, canDelete: true, uniqueCol : ['option'],
       },
       {
-        id: 'acl', label: gettext('Privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'], min_version: 90200,
-      },
-      {
         id: 'relacl', label: gettext('Privileges'), type: 'collection',
         schema: this.getPrivilegeRoleSchema(['a','r','w','x']),
         uniqueCol : ['grantee', 'grantor'],
         editable: false,
-        group: gettext('Security'), mode: ['edit', 'create'],
+        group: gettext('Security'), mode: ['properties', 'edit', 'create'],
         canAdd: true, canDelete: true,
         min_version: 90200
       },

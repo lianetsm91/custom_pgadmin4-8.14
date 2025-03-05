@@ -394,9 +394,6 @@ export default class FunctionSchema extends BaseUISchema {
       },
       group: gettext('Options'), visible: obj.isVisible,
       options: this.fieldOptions.getSupportFunctions, min_version: 120000,
-    },{
-      id: 'proacl', label: gettext('Privileges'), type: 'text',
-      mode: ['properties'], group: gettext('Security'),
     },
     {
       id: 'variables', label: '', type: 'collection',
@@ -409,7 +406,7 @@ export default class FunctionSchema extends BaseUISchema {
       id: 'acl', label: gettext('Privileges'), editable: false,
       schema: this.getPrivilegeRoleSchema(['X']),
       uniqueCol : ['grantee', 'grantor'], type: 'collection',
-      group: 'Security', mode: ['edit', 'create'], canAdd: true,
+      group: 'Security', mode: ['properties', 'edit', 'create'], canAdd: true,
       canDelete: true,
       disabled: obj.inCatalog(),
     },{

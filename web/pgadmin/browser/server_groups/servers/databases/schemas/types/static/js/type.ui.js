@@ -1429,11 +1429,6 @@ export default class TypeSchema extends BaseUISchema {
       visible: (state) => isVisible(state, 'V'),
     },
     {
-      id: 'type_acl', label: gettext('Privileges'), cell: 'string',
-      type: 'text', mode: ['properties'], group: gettext('Security'),
-      disabled: () => obj.inCatalog(),
-    },
-    {
       id: 'is_sys_type', label: gettext('System type?'), cell: 'switch',
       type: 'switch', mode: ['properties'],
       disabled: () => obj.inCatalog(),
@@ -1447,7 +1442,7 @@ export default class TypeSchema extends BaseUISchema {
       id: 'typacl', label: gettext('Privileges'), type: 'collection',
       group: gettext('Security'),
       schema: this.getPrivilegeRoleSchema(['U']),
-      mode: ['edit', 'create'], canDelete: true,
+      mode: ['properties', 'edit', 'create'], canDelete: true,
       uniqueCol : ['grantee'], deps: ['typtype'],
       canAdd: function(state) {
         // Do not allow to add when shell type is selected

@@ -575,7 +575,7 @@ export default class ColumnSchema extends BaseUISchema {
       id: 'attacl', label: gettext('Privileges'), type: 'collection',
       group: 'security',
       schema: this.getPrivilegeRoleSchema(['a','r','w','x']),
-      mode: ['edit'], canAdd: true, canDelete: true,
+      mode: ['properties', 'edit'], canAdd: true, canDelete: true,
       uniqueCol : ['grantee'],
     },{
       id: 'seclabels', label: gettext('Security labels'), canAdd: true,

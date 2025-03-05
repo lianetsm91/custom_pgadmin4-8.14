@@ -219,9 +219,6 @@ export default class TriggerFunctionSchema extends BaseUISchema {
         id: 'proleakproof', label: gettext('Leak proof?'),
         group: gettext('Options'), cell:'boolean', type: 'switch', min_version: 90200,
         disabled: obj.isDisabled, readonly: obj.isReadonly,
-      }, {
-        id: 'proacl', label: gettext('Privileges'), mode: ['properties'],
-        group: gettext('Security'), type: 'text',
       },
       {
         id: 'variables', label: '', type: 'collection',
@@ -236,7 +233,7 @@ export default class TriggerFunctionSchema extends BaseUISchema {
         schema: this.getPrivilegeRoleSchema(['X']),
         uniqueCol : ['grantee'],
         editable: false,
-        group: gettext('Security'), mode: ['edit', 'create'],
+        group: gettext('Security'), mode: ['properties', 'edit', 'create'],
         canAdd: true, canDelete: true,
       },
       {

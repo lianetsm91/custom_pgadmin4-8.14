@@ -93,9 +93,6 @@ export default class LanguageSchema extends BaseUISchema {
       options: this.fieldOptions.role, controlProps: { allowClear: false },
       mode: ['edit', 'properties', 'create'],
     },{
-      id: 'acl', label: gettext('Privileges'), type: 'text',
-      group: gettext('Security'), mode: ['properties'],
-    },{
       id: 'is_sys_obj', label: gettext('System language?'),
       cell:'boolean', type: 'switch', mode: ['properties'],
     },{
@@ -205,7 +202,7 @@ export default class LanguageSchema extends BaseUISchema {
     },
     {
       id: 'lanacl', label: gettext('Privileges'), type: 'collection',
-      group: gettext('Security'), mode: ['edit', 'create'],
+      group: gettext('Security'), mode: ['properties', 'edit', 'create'],
       schema: this.getPrivilegeRoleSchema(['U']),
       canAdd: true, canDelete: true, uniqueCol : ['grantee'],
     },

@@ -90,9 +90,13 @@ export default function SchemaPropertiesView({
                     <Box style={{width: '100%'}}>
                       {
                         group.controls.map(
-                          (item, idx) => <FieldControl
-                            item={item} key={idx} schemaId={schema._id}
-                          />
+                          (item, idx) => {
+                            if(group.id === 'security_group' || group.id === 'Security')
+                              item.controlProps.readonly = true;
+                            return (<FieldControl
+                              item={item} key={idx} schemaId={schema._id}
+                            />)
+                          }
                         )
                       }
                     </Box>

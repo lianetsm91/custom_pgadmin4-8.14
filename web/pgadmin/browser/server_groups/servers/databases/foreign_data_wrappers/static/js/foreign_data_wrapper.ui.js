@@ -80,11 +80,8 @@ export default class ForeignDataWrapperSchema extends BaseUISchema {
         schema: this.getPrivilegeRoleSchema(['U']),
         uniqueCol : ['grantee'],
         editable: false,
-        group: gettext('Security'), mode: ['edit', 'create'],
+        group: gettext('Security'), mode: ['properties', 'edit', 'create'],
         canAdd: true, canDelete: true,
-      }, {
-        id: 'acl', label: gettext('Privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
       }
     ];
   }

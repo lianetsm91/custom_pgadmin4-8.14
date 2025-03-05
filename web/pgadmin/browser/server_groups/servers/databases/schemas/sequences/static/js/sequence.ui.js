@@ -167,12 +167,9 @@ export default class SequenceSchema extends BaseUISchema {
         mode: ['create', 'edit'],
         text: gettext('The OWNED BY option causes the sequence to be associated with a specific table column, such that if that column (or its whole table) is dropped, the sequence will be automatically dropped as well. The specified table must have the same owner and be in the same schema as the sequence.'),
       }, {
-        id: 'acl', label: gettext('Privileges'), type: 'text',
-        group: gettext('Security'), mode: ['properties'],
-      }, {
         id: 'relacl', label: gettext('Privileges'), group: gettext('Security'), type: 'collection',
         schema: this.getPrivilegeRoleSchema(['r', 'w', 'U']),
-        uniqueCol : ['grantee', 'grantor'], mode: ['edit', 'create'],
+        uniqueCol : ['grantee', 'grantor'], mode: ['properties', 'edit', 'create'],
         canAdd: true, canDelete: true,
       }, {
         id: 'securities', label: gettext('Security labels'), type: 'collection',

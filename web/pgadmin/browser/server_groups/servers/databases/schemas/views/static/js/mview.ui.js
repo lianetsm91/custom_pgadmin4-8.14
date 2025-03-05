@@ -69,9 +69,6 @@ export default class MViewSchema extends BaseUISchema {
         type: 'switch', mode: ['properties'],
       },
       {
-        id: 'acl', label: gettext('Privileges'),
-        mode: ['properties'], type: 'text', group: gettext('Security'),
-      },{
         id: 'comment', label: gettext('Comment'), cell: 'text',
         type: 'multiline',
       },{
@@ -122,7 +119,7 @@ export default class MViewSchema extends BaseUISchema {
         schema: this.getPrivilegeRoleSchema(['a', 'r', 'w', 'd', 'D', 'x', 't']),
         uniqueCol : ['grantee'],
         editable: false,
-        group: gettext('Security'), mode: ['edit', 'create'],
+        group: gettext('Security'), mode: ['properties', 'edit', 'create'],
         canAdd: true, canDelete: true,
       },
       {
