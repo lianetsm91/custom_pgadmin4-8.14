@@ -171,7 +171,7 @@ export class SchemaState extends DepListener {
     initDataPromise.then((data) => {
       data = data || {};
 
-      if(state.mode === 'edit') {
+      if(state.mode === 'edit' || state.mode === 'properties') {
         // Set the origData to incoming data, useful for comparing.
         state.initData = prepareData({...data, ...state.immutableData});
       } else {
@@ -242,7 +242,7 @@ export class SchemaState extends DepListener {
 
 
     // Inform the callbacks about change in the data.
-    if(state.mode !== 'edit') {
+    if(state.mode !== 'edit' && state.mode !== 'properties') {
       // Merge the changed data with origData in 'create' mode.
       dataDiff = _.assign({}, state.initData, dataDiff);
 

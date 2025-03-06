@@ -17,7 +17,7 @@ import {
 } from './common';
 import {
   evaluateFieldOptions,
-  evaluateFieldsOption, 
+  evaluateFieldsOption,
   registerOptionEvaluator,
   schemaOptionsEvalulator,
 } from './registry';
@@ -27,7 +27,7 @@ export {
   booleanEvaluator,
   canAddOrDelete,
   evaluateFieldOptions,
-  evaluateFieldsOption, 
+  evaluateFieldsOption,
   evalIfNotDisabled,
   registerOptionEvaluator,
   schemaOptionsEvalulator,
@@ -76,7 +76,7 @@ registerOptionEvaluator(
     booleanEvaluator({viewHelperProps, ...args })
   ),
   // Default value
-  false 
+  false
 );
 
 
@@ -167,7 +167,6 @@ registerOptionEvaluator(
   // Evaluator
   ({viewHelperProps, ...args}) => (
     !viewHelperProps.inCatalog &&
-    viewHelperProps.mode !== 'properties' &&
     booleanEvaluator({viewHelperProps, ...args })
   ),
   // Default value

@@ -117,7 +117,7 @@ export function getSchemaDataDiff(
   topSchema, initData, sessData, mode, keepCid,
   stringify=false, includeSkipChange=true
 ) {
-  const isEditMode = mode === 'edit';
+  const isEditMode = mode === 'edit' || mode === 'properties';
 
   // This will be executed recursively as data can be nested.
   let parseChanges = (schema, origVal, sessVal) => {

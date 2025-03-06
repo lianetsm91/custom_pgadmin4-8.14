@@ -21,9 +21,11 @@ export function SaveButton({
   const schemaState = useContext(SchemaStateContext);
   const checkDisabled = (state) => {
     const {isDirty, isSaving, errors} = state;
+    const isEditOrPropertiesMode = mode === 'edit' || mode === 'properties';
+
     return (
       isSaving ||
-       !(mode === 'edit' || checkDirtyOnEnableSave ? isDirty : true) ||
+      !(isEditOrPropertiesMode || checkDirtyOnEnableSave ? isDirty : true) ||
       Boolean(errors.name)
     );
   };
