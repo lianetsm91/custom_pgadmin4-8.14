@@ -27,7 +27,7 @@ import {HTML5Backend} from 'react-dnd-html5-backend';
 import { usePgAdmin } from 'sources/BrowserComponent';
 import {
   PgReactTable, PgReactTableBody, PgReactTableHeader,
-  PgReactTableRow, 
+  PgReactTableRow,
 } from 'sources/components/PgReactTableStyled';
 import CustomPropTypes from 'sources/custom_prop_types';
 
