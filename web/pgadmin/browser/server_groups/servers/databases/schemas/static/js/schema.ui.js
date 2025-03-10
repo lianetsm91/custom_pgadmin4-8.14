@@ -64,18 +64,26 @@ export default class PGSchema extends BaseUISchema {
         id: 'deftblacl', label: gettext('Default TABLE privileges'), type: 'collection',
         group: gettext('Security'), mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
         schema: this.getPrivilegeRoleSchema(['a', 'r', 'w', 'd', 'D', 'x', 't']),
+        canAdd: true,
+        canDelete: true,
       },{
         id: 'defseqacl', label: gettext('Default SEQUENCE privileges'), type: 'collection',
         group: gettext('Security'), mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
         schema: this.getPrivilegeRoleSchema(['r', 'w', 'U']),
+        canAdd: true,
+        canDelete: true,
       },{
         id: 'deffuncacl', label: gettext('Default FUNCTION privileges'), type: 'collection',
         group: gettext('Security'), mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
         schema: pgSchemaObj.getPrivilegeRoleSchema(['X']),
+        canAdd: true,
+        canDelete: true,
       },{
         id: 'deftypeacl', label: gettext('Default TYPE privileges'), type: 'collection',
         group: gettext('Security'), mode: ['properties'], uniqueCol : ['grantee', 'grantor'],
         min_version: 90200, schema: this.getPrivilegeRoleSchema(['U']),
+        canAdd: true,
+        canDelete: true,
       },
       {
         id: 'seclabels', label: gettext('Security labels'),

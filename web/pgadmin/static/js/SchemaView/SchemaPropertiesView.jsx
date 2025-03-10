@@ -137,7 +137,7 @@ export default function SchemaPropertiesView({
                         item={item} key={idx} schemaId={schema._id} />)
                       )
                       }
-                      {(group.id === 'security_group' || group.id === 'Security') && !viewHelperProps.inCatalog &&
+                      {(group.id === 'security_group' || group.id.toLowerCase() === 'security') && !viewHelperProps.inCatalog &&
                         (<Box display="flex" flexDirection="column"
                               alignItems="end">
                             <ErrorMessageBox style={{ position: 'static' }} />
