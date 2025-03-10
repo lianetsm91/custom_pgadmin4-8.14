@@ -17,6 +17,7 @@ import Box from '@mui/material/Box';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import gettext from 'sources/gettext';
@@ -29,8 +30,9 @@ import { SchemaStateContext } from './SchemaState';
 import { StyledBox } from './StyledComponents';
 import { useSchemaState } from './hooks';
 import { createFieldControls } from './utils';
-
+import { parseApiError } from 'sources/api_instance';
 import { ErrorMessageBox } from 'sources/components/FormComponents';
+import { LOADING_STATE } from 'sources/SchemaView/SchemaState/SchemaState';
 
 /* If its the properties tab */
 export default function SchemaPropertiesView({
@@ -45,6 +47,22 @@ export default function SchemaPropertiesView({
     schema: schema, getInitData: getInitData, immutableData: {},
     viewHelperProps: viewHelperProps, onDataChange: props.onDataChange,
   });
+
+  // Reload properties tab when properties are modified from the dialog
+  useEffect(() => {
+    const saveProperties = new BroadcastChannel('save-properties');
+
+    saveProperties.onmessage = (event) => {
+      if(event.data === 'reload') {
+        schemaState.setLoadingState(LOADING_STATE.INIT);
+        schemaState.reload();
+      }
+    };
+
+    return () => {
+      saveProperties.close();
+    };
+  }, []);
 
   const finalTabs = useMemo(
     () => createFieldControls({
@@ -80,6 +98,8 @@ export default function SchemaPropertiesView({
       }).finally(() => {
       setSaving(false);
       setLoaderText('');
+      schemaState.setLoadingState(LOADING_STATE.INIT);
+      schemaState.reload();
     });
   };
 

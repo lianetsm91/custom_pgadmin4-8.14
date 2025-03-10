@@ -39,6 +39,7 @@ import { StyledBox } from './StyledComponents';
 import { useSchemaState } from './hooks';
 import { getForQueryParams } from './common';
 
+const saveProperties = new BroadcastChannel('save-properties');
 
 /* If its the dialog */
 export default function SchemaDialogView({
@@ -114,6 +115,9 @@ export default function SchemaDialogView({
         if(checkIsMounted()) {
           setSaving(false);
           setLoaderText('');
+          setTimeout(() => {
+            saveProperties.postMessage('reload');
+          }, 0);
         }
       });
   };
