@@ -8,7 +8,15 @@
 //////////////////////////////////////////////////////////////
 /* Common form components used in pgAdmin */
 
-import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import { styled } from '@mui/material/styles';
 import {
   Box, FormControl, OutlinedInput, FormHelperText, ToggleButton, ToggleButtonGroup,
@@ -44,6 +52,7 @@ import { useWindowSize } from '../custom_hooks';
 import PgTreeView from '../PgTreeView';
 import Loader from 'sources/components/Loader';
 import { MY_STORAGE } from '../../../misc/file_manager/static/js/components/FileManagerConstants';
+import { SchemaStateContext } from 'sources/SchemaView';
 
 
 const Root = styled('div')(({theme}) => ({
@@ -1149,10 +1158,33 @@ FormNote.propTypes = {
   controlProps: PropTypes.object,
 };
 
+export const ErrorMessageBox = ({ style }) => {
+  const [key, setKey] = useState(0);
+  const schemaState = useContext(SchemaStateContext);
+  const onErrClose = useCallback(() => {
+    const err = { ...schemaState.errors, message: '' };
+    // Unset the error message, but not the name.
+    schemaState.setError(err);
+  }, [schemaState]);
+  const errors = schemaState.errors;
+  const message = errors?.message || '';
 
-const StyledBox = styled(Box)(({theme}) => ({
+  useEffect(() => {
+    // Refresh on message changes.
+    return schemaState.subscribe(
+      ['errors', 'message'], () => setKey(Date.now()), 'states'
+    );
+  }, [key]);
+
+  return <FormFooterMessage
+    style={style} type={MESSAGE_TYPE.ERROR} message={message}
+    onClose={onErrClose}
+  />;
+};
+
+const StyledBox = styled(Box)(({ theme, position = 'absolute' }) => ({
   padding: theme.spacing(0.5),
-  position: 'absolute',
+  position: position,
   bottom: 0,
   left: 0,
   right: 0,

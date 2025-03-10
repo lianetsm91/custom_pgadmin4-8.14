@@ -8,17 +8,16 @@
 //////////////////////////////////////////////////////////////
 
 import React, {
-  useCallback, useContext, useEffect, useMemo, useRef, useState
+  useContext, useEffect, useMemo, useRef, useState
 } from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 
-import {
-  FormFooterMessage, MESSAGE_TYPE, FormNote
-} from 'sources/components/FormComponents';
+import { FormNote } from 'sources/components/FormComponents';
 import TabPanel from 'sources/components/TabPanel';
+import { ErrorMessageBox } from 'sources/components/FormComponents';
 import { useOnScreen } from 'sources/custom_hooks';
 import CustomPropTypes from 'sources/custom_prop_types';
 import gettext from 'sources/gettext';
@@ -32,30 +31,6 @@ import {
 } from './hooks';
 import { registerView, View } from './registry';
 import { createFieldControls, listenDepChanges } from './utils';
-
-const ErrorMessageBox = () => {
-  const [key, setKey] = useState(0);
-  const schemaState = useContext(SchemaStateContext);
-  const onErrClose = useCallback(() => {
-    const err = { ...schemaState.errors, message: '' };
-    // Unset the error message, but not the name.
-    schemaState.setError(err);
-  }, [schemaState]);
-  const errors = schemaState.errors;
-  const message = errors?.message || '';
-
-  useEffect(() => {
-    // Refresh on message changes.
-    return schemaState.subscribe(
-      ['errors', 'message'], () => setKey(Date.now()), 'states'
-    );
-  }, [key]);
-
-  return <FormFooterMessage
-    type={MESSAGE_TYPE.ERROR} message={message} onClose={onErrClose}
-  />;
-};
-
 
 // The first component of schema view form.
 export default function FormView({
